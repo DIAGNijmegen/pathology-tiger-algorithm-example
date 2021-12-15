@@ -67,7 +67,8 @@ def process_image_tile_to_detections(
     prediction = np.copy(image_tile[:, :, 2])
     prediction[(image_tile[:, :, 2] <= 40) & (segmentation_mask == 2)] = 1
     xs, ys = np.where(prediction.transpose() == 1)
-    return list(zip(xs, ys, [1] * len(xs)))
+    probabilities = [1.0] * len(xs)
+    return list(zip(xs, ys, probabilities))
 
 
 def process_segmentation_detection_to_tils_score(
