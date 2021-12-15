@@ -85,7 +85,7 @@ def process_segmentation_detection_to_tils_score(
     Returns:
         int: til score (between 0, 100)
     """
-    
+
     level = 4
     cell_area_level_1 = 16*16
 
@@ -93,7 +93,7 @@ def process_segmentation_detection_to_tils_score(
     width, height = image.getDimensions()
     slide_at_level_4 = image.getUCharPatch(0, 0, int(width / 2**level), int(height / 2**level), level)
     area = len(np.where(slide_at_level_4 == 2)[0])
-    value = int(min(100, area / (len(detections) / (cell_area_level_1//2**4))))
+    value = min(100, int(area / (len(detections) / (cell_area_level_1//2**4))))
     return value
 
 
