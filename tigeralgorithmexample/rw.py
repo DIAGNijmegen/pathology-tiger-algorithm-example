@@ -34,7 +34,7 @@ def open_multiresolutionimage_image(path: Path) -> mir.MultiResolutionImage:
     reader = mir.MultiResolutionImageReader()
     image = reader.open(str(path))
     if image is None:
-        raise IOError(f"Error opening image: {path}")
+        raise IOError(f"Error opening image: {path}, image is None")
     return image
 
 
@@ -110,11 +110,14 @@ class DetectionWriter:
             detections.append((x,y,probability))
         return detections
 
-    def write_detections(self, detections: List[tuple], x_offset: Union[int, float], y_offset: Union[int, float]):
+    def write_detections(self, detections: List[tuple], spacing:tuple, x_offset: Union[int, float], y_offset: Union[int, float]):
         for detection in detections:
             x, y, probalility = detection
             x += x_offset
             y += y_offset
+            # world coordinates in grand challenge
+            x = x*spacing[0]*1000
+            y = y*spacing[1]*1000
             self.add_point(x=x, y=y, probalility=probalility)
 
     def add_point(self, x:  Union[int, float], y:  Union[int, float], probalility: float):

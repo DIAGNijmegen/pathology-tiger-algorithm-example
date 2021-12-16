@@ -3,20 +3,14 @@ FROM ubuntu:18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-
-RUN apt-get update && apt-get -y install curl
-
 # Install python3.8
 RUN : \
     && apt-get update \
-    && apt-get install -y --no-install-recommends \
-        software-properties-common \
+    && apt-get install -y --no-install-recommends software-properties-common \
     && add-apt-repository -y ppa:deadsnakes \
-    && apt-get install -y --no-install-recommends \
-        python3.8-venv \
-    && apt-get install libpython3.8 -y \
+    && apt-get install -y --no-install-recommends python3.8-venv \
+    && apt-get install libpython3.8-dev -y \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* \
     && :
     
 # Add env to PATH
@@ -48,7 +42,7 @@ RUN : \
     && :
 
 # Make user
-RUN useradd -rm -d /home/user -s /bin/bash -g root -G sudo -u 1001 user
+RUN groupadd -r user && useradd -r -g user user
 RUN chown user /home/user/
 USER user
 WORKDIR /home/user

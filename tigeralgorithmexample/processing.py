@@ -110,8 +110,9 @@ def process():
     image_path = get_image_path_from_input_folder()
     tissue_mask_path = get_tissue_mask_path_from_input_folder()
 
-    print(image_path)
-    print(image_path.exists())
+    print(f'Processing image: {image_path}')
+    print(f'Processing with mask: {tissue_mask_path}')
+
     # open images
     image = open_multiresolutionimage_image(path=image_path)
     tissue_mask = open_multiresolutionimage_image(path=tissue_mask_path)
@@ -153,7 +154,7 @@ def process():
                     image_tile=image_tile, segmentation_mask=segmentation_mask
                 )
                 detection_writer.write_detections(
-                    detections=detections, x_offset=x, y_offset=y
+                    detections=detections, spacing=spacing, x_offset=x, y_offset=y
                 )
 
     print("Saving...")
