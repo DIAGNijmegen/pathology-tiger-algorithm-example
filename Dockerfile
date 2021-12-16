@@ -1,7 +1,8 @@
-# FROM ubuntu:20.04
-FROM ubuntu:18.04
+FROM ubuntu:20.04
+# FROM ubuntu:18.04
 
-ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Europe/Amsterdam
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Install python3.8
 RUN : \
@@ -21,16 +22,16 @@ ENV PATH=/venv/bin:$PATH
 RUN : \
     && apt-get update \
     && apt-get -y install curl \
-    # && curl --remote-name --location "https://github.com/computationalpathologygroup/ASAP/releases/download/ASAP-2.0-(Nightly)/ASAP-2.0-py38-Ubuntu2004.deb" \
-    && curl --remote-name --location "https://github.com/computationalpathologygroup/ASAP/releases/download/1.9/ASAP-1.9-Linux-Ubuntu1804.deb" \
-    # && dpkg --install ASAP-2.0-py38-Ubuntu2004.deb || true \
-    && dpkg --install ASAP-1.9-Linux-Ubuntu1804.deb || true \
+    && curl --remote-name --location "https://github.com/computationalpathologygroup/ASAP/releases/download/ASAP-2.0-(Nightly)/ASAP-2.0-py38-Ubuntu2004.deb" \
+    # && curl --remote-name --location "https://github.com/computationalpathologygroup/ASAP/releases/download/1.9/ASAP-1.9-Linux-Ubuntu1804.deb" \
+    && dpkg --install ASAP-2.0-py38-Ubuntu2004.deb || true \
+    # && dpkg --install ASAP-1.9-Linux-Ubuntu1804.deb || true \
     && apt-get -f install --fix-missing --fix-broken --assume-yes \
     && ldconfig -v \
     && apt-get clean \
     && echo "/opt/ASAP/bin" > /venv/lib/python3.8/site-packages/asap.pth \
-    # && rm ASAP-2.0-py38-Ubuntu2004.deb \
-    && rm ASAP-1.9-Linux-Ubuntu1804.deb \
+    && rm ASAP-2.0-py38-Ubuntu2004.deb \
+    # && rm ASAP-1.9-Linux-Ubuntu1804.deb \
     && :
 
 # # Install algorithm
