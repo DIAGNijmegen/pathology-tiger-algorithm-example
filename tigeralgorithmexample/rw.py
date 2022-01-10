@@ -116,8 +116,8 @@ class DetectionWriter:
             x += x_offset
             y += y_offset
             # world coordinates in grand challenge
-            x = x*spacing[0]*1000
-            y = y*spacing[1]*1000
+            x = x*spacing[0]/1000
+            y = y*spacing[1]/1000
             self.add_point(x=x, y=y, probalility=probalility)
 
     def add_point(self, x:  Union[int, float], y:  Union[int, float], probalility: float):
