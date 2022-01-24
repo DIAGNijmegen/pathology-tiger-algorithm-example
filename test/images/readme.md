@@ -1,0 +1,1 @@
+In this folder a tissue mask for the image should be placed.

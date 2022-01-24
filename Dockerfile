@@ -41,6 +41,8 @@ RUN : \
 # Make user
 RUN groupadd -r user && useradd -r -g user user
 RUN chown user /home/user/
+RUN mkdir /output/
+RUN chown user /output/
 USER user
 WORKDIR /home/user
 
