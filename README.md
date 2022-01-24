@@ -44,3 +44,26 @@ Dockerfile to be build and uploaded to grand-challenge. It installs
  - tigeralgorithmexample + requirements
 
 As an entry point, the \_\_main\_\_ file will be run; hence process function from the processing file will be called.
+
+## Include your own code
+If you use this repository as a starting point. Please change the following three functions and implement your own models/pipeline
+ - segmentation: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/3d0e09a0ef480bb7526b7ed5a355322f49d787ec/tigeralgorithmexample/processing.py#L26
+ - detection: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/3d0e09a0ef480bb7526b7ed5a355322f49d787ec/tigeralgorithmexample/processing.py#L48
+ - tils-score: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/3d0e09a0ef480bb7526b7ed5a355322f49d787ec/tigeralgorithmexample/processing.py#L74
+
+
+## Test and Export
+To test if your algorithm works and (still) produces the correct outputs you add an image to ./test/ and a corresponding tissue mask in ./test/images/
+Then you can call:
+```bash
+./test.sh
+```
+
+This will build and run the algorithm and check if the required output is present and it will check if the detected_lymphocytes.json is in valid json format.
+When the there are no complaints in the output you can export the algorothm to an .tar.xz file with the following comamand:
+```bash
+./export.sh
+```
+
+
+
