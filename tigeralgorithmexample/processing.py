@@ -52,7 +52,7 @@ def process_image_tile_to_detections(
     """Example function that shows processing a tile from a multiresolution image for detection purposes.
     
     NOTE 
-        This code is only made for illustration and is not meant to be taken as valid processing step.
+        This code is only made for illustration and is not meant to be taken as valid processing step. Please update this function
 
     Args:
         image_tile (np.ndarray): [description]
@@ -102,7 +102,7 @@ def process():
     """Proceses a test slide"""
 
     level = READING_LEVEL
-    tile_size = WRITING_TILE_SIZE
+    tile_size = WRITING_TILE_SIZE # should be a power of 2
 
     initialize_output_folders()
 
@@ -132,30 +132,33 @@ def process():
     tils_score_writer = TilsScoreWriter(TMP_TILS_SCORE_PATH)
 
     print("Processing image...")
-    # loop over image
+    # loop over image and get tiles
     for y in tqdm(range(0, dimensions[1], tile_size)):
         for x in range(0, dimensions[0], tile_size):
             tissue_mask_tile = tissue_mask.getUCharPatch(
                 startX=x, startY=y, width=tile_size, height=tile_size, level=level
             ).squeeze()
-            if np.any(tissue_mask_tile):
-                image_tile = image.getUCharPatch(
-                    startX=x, startY=y, width=tile_size, height=tile_size, level=level
-                )
+            
+            if not np.any(tissue_mask_tile):
+                continue
 
-                # segmentation
-                segmentation_mask = process_image_tile_to_segmentation(
-                    image_tile=image_tile, tissue_mask_tile=tissue_mask_tile
-                )
-                segmentation_writer.write_segmentation(tile=segmentation_mask, x=x, y=y)
+            image_tile = image.getUCharPatch(
+                startX=x, startY=y, width=tile_size, height=tile_size, level=level
+            )
 
-                # detection
-                detections = process_image_tile_to_detections(
-                    image_tile=image_tile, segmentation_mask=segmentation_mask
-                )
-                detection_writer.write_detections(
-                    detections=detections, spacing=spacing, x_offset=x, y_offset=y
-                )
+            # segmentation
+            segmentation_mask = process_image_tile_to_segmentation(
+                image_tile=image_tile, tissue_mask_tile=tissue_mask_tile
+            )
+            segmentation_writer.write_segmentation(tile=segmentation_mask, x=x, y=y)
+
+            # detection
+            detections = process_image_tile_to_detections(
+                image_tile=image_tile, segmentation_mask=segmentation_mask
+            )
+            detection_writer.write_detections(
+                detections=detections, spacing=spacing, x_offset=x, y_offset=y
+            )
 
     print("Saving...")
     # save segmentation and detection
