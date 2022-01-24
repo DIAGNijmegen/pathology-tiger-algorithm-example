@@ -54,16 +54,18 @@ If you use this repository as a starting point. Please change the following thre
 
 ## Test and Export
 To test if your algorithm works and (still) produces the correct outputs you add an image to ./test/ and a corresponding tissue mask in ./test/images/
-Then you can call:
+
+After the image and the tissue background are present in the test and test/images folder, you can run the following command to build and test the docker:
+
 ```bash
 ./test.sh
 ```
 
-This will build and run the algorithm and check if the required output is present and it will check if the detected_lymphocytes.json is in valid json format.
-When the there are no complaints in the output you can export the algorothm to an .tar.xz file with the following comamand:
+This will build the docker, run the docker and check if the required output is present. Furthermore, it will check if the detected_lymphocytes.json is in valid json format. When there are no complaints in the output you can export the algorithm to an .tar.xz file with the following comamand:
+
 ```bash
 ./export.sh
 ```
 
-
+The resulting .tar.xz file can be uploaded to the <a href="https://grand-challenge.org/">grand-challenge</a> platform
 
