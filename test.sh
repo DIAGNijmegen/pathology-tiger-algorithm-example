@@ -33,7 +33,7 @@ docker run --rm \
         python:3.8-slim \
         python -m json.tool $DETECTION_FILE; \
         [[ -f $SEGMENTATION_FILE ]] || printf 'Expected file %s does not exist!\n' "$SEGMENTATION_FILE"; \
-        [[ -f $TILS_SCORE_FILE ]] || printf 'Expected file %s does not exist!\n' "$DETECTION_FILE"; \
+        [[ -f $TILS_SCORE_FILE ]] || printf 'Expected file %s does not exist!\n' "$TILS_SCORE_FILE"; \
 
 echo "Removing volume..."
 docker volume rm tiger-output
