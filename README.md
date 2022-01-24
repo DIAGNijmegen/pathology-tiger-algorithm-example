@@ -47,9 +47,9 @@ As an entry point, the \_\_main\_\_ file will be run; hence process function fro
 
 ## Include your own code
 If you use this repository as a starting point. Please change the following three functions and implement your own models/pipeline
- - segmentation: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/main/tigeralgorithmexample/processing.py#L26
- - detection: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/main/tigeralgorithmexample/processing.py#L48
- - tils-score: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/main/tigeralgorithmexample/processing.py#L74
+ - segmentation: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L26
+ - detection: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L48
+ - tils-score: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L74
 
 
 ## Test and Export
