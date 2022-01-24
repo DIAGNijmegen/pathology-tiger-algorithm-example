@@ -2,6 +2,7 @@
 
 Example algorithm and docker for the TIGER challenge
 
+<img src="https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/main/Tiger%20-%20algorithm%20example.png" width="500" height="500">
 
 ## Requirements
 
