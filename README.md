@@ -53,7 +53,7 @@ If you use this repository as a starting point. Please change the following thre
 
 
 ## Test and Export
-To test if your algorithm works and (still) produces the correct outputs you add an image to ./test/ and a corresponding tissue mask in ./test/images/
+To test if your algorithm works and (still) produces the correct outputs you add an image to ./testinput/ and a corresponding tissue mask in ./testinput/images/
 
 After the image and the tissue background are present in the test and test/images folder, you can run the following command to build and test the docker:
 

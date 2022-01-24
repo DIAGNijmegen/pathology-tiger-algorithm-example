@@ -23,7 +23,7 @@ docker run --rm \
         --security-opt="no-new-privileges" \
         --shm-size=128m \
         --pids-limit=256 \
-        -v $SCRIPTPATH/test/:/input/ \
+        -v $SCRIPTPATH/testinput/:/input/ \
         -v tiger-output:/output/ \
         tigerexamplealgorithm
 
