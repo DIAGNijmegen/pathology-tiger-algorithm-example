@@ -1,4 +1,4 @@
-# Pathology-tiger-algorithm-example
+# Pathology Tiger Algorithm Example
 
 Example algorithm and docker for the TIGER challenge
 
