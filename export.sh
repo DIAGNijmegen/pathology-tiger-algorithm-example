@@ -2,4 +2,4 @@
 
 ./build.sh
 
-docker save tigerexamplealgorithm | gzip -c > tigerexamplealgorithm.tar.gz
+docker save tigerexamplealgorithm | gzip -c > tigerexamplealgorithm.tar.xz
