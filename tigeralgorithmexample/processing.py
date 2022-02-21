@@ -40,7 +40,7 @@ def process_image_tile_to_segmentation(
     """
 
     prediction = np.copy(image_tile[:, :, 0])
-    prediction[image_tile[:, :, 0] > 90] = 0
+    prediction[image_tile[:, :, 0] > 90] = 1
     prediction[image_tile[:, :, 0] <= 90] = 2
     return prediction * tissue_mask_tile
 
@@ -94,7 +94,11 @@ def process_segmentation_detection_to_tils_score(
     width, height = image.getDimensions()
     slide_at_level_4 = image.getUCharPatch(0, 0, int(width / 2**level), int(height / 2**level), level)
     area = len(np.where(slide_at_level_4 == 2)[0])
-    value = min(100, int(area / (len(detections) / (cell_area_level_1//2**4))))
+    cell_area = (cell_area_level_1//2**4)
+    n_detections = len(detections)
+    if cell_area == 0 or n_detections == 0:
+        return 0
+    value = min(100, int(area / (n_detections / cell_area)))
     return value
 
 
@@ -122,6 +126,7 @@ def process():
     spacing = image.getSpacing()
 
     # create writers
+    print(f"Setting up writers")
     segmentation_writer = SegmentationWriter(
         TMP_SEGMENTATION_OUTPUT_PATH,
         tile_size=tile_size,
@@ -165,6 +170,8 @@ def process():
     segmentation_writer.save()
     detection_writer.save()
 
+    print('Number of detections', len(detection_writer.detections))
+    
     print("Compute tils score...")
     # compute tils score
     tils_score = process_segmentation_detection_to_tils_score(
@@ -180,4 +187,4 @@ def process():
     # save data to output folder
     copy_data_to_output_folders()
 
-    print("Done!")
+    print("Completed!")

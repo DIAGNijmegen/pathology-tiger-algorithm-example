@@ -121,9 +121,10 @@ class DetectionWriter:
             self.add_point(x=x, y=y, probalility=probalility)
 
     def add_point(self, x:  Union[int, float], y:  Union[int, float], probalility: float):
-        _3d_space_value = 0.5009999871253967
-        point = {"point": [float(x), float(y), _3d_space_value], "probability": probalility}
-        self._data["points"].append(point)
+        if len(self._data['points']) < 100_000:
+            _3d_space_value = 0.5009999871253967
+            point = {"point": [float(x), float(y), _3d_space_value], "probability": probalility}
+            self._data["points"].append(point)
 
     def save(self):
         with open(self._output_path, "w", encoding="utf-8") as f:
