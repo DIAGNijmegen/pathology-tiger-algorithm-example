@@ -77,7 +77,7 @@ class SegmentationWriter:
     ):
         if tile.shape[0] != WRITING_TILE_SIZE or tile.shape[1] != WRITING_TILE_SIZE:
             raise ValueError(f"Dimensions of tile {tile.shape} is incompatible with writing tile size {WRITING_TILE_SIZE}.") 
-        self._writer.writeBaseImagePartToLocation(tile.flatten(), x=int(x), y=int(y))
+        self._writer.writeBaseImagePartToLocation(tile.flatten().astype('uint8'), x=int(x), y=int(y))
 
     def save(self):
         self._writer.finishImage()
