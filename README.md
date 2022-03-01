@@ -61,7 +61,7 @@ After the image and the tissue background are present in the test and test/image
 ./test.sh
 ```
 
-This will build the docker, run the docker and check if the required output is present. Furthermore, it will check if the detected_lymphocytes.json is in valid json format. When there are no complaints in the output you can export the algorithm to an .tar.xz file with the following comamand:
+This will build the docker, run the docker and check if the required output is present. Furthermore, it will check if the detected_lymphocytes.json is in valid json format. When there are no complaints in the output you can export the algorithm to an .tar.xz file with the following command:
 
 ```bash
 ./export.sh
