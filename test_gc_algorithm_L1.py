@@ -9,7 +9,7 @@ job = client.run_external_job(
     inputs={
         # 104S (from the tils training subset)
         "generic-medical-image": "https://grand-challenge.org/api/v1/cases/images/18a9e579-34bd-43b7-ac42-61541fb35156/",
-        # 104S_rois (similar rois as expected in L1) 
+        # 104S_rois (similar rois as expected in L1)  
         "generic-overlay": "https://grand-challenge.org/api/v1/cases/images/e676fdaa-719e-4050-81b7-4724fed69c52/"
     }
 )
