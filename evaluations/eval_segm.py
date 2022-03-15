@@ -298,8 +298,11 @@ def plot_data_dist(conf_mat, classnames, out_dir):
     # print('%s saved' % out_path)
 
 def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class_mapping, output_dir, spacing=0.5,
-                  save_region_stats=False, show=False, slow=False, per_bbox=False):
-    """ classes: <nr>:<name>
+                  show=False, slow=False, per_bbox=False):
+    """
+    Evaluates the given ground truth and predicted masks.
+    Requires pred_class_mapping and target_class_mapping of the form <mask_value>:<name>, which allows to remap
+    values to the desired classes.
     """
     print('output_dir %s' % str(output_dir))
     print('pred_class_mapping: %s, target_class_mapping: %s' % (str(pred_class_mapping), str(target_class_mapping)))
@@ -346,7 +349,6 @@ def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class
         cm_list.append(cm_i)
         results[file_name] = _compute_cm_metrics(cm_i, pred_classnames)
 
-        worst_candidates = filenames
         if per_bbox:
             worst_candidates = []
             for ib,cm_ib in enumerate(cm_is):
@@ -357,9 +359,6 @@ def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class
                 worst_candidates.append(fbox_name)
         print('Metrics for %s: %s' % (file_name, str(results[file_name])))
 
-        if save_region_stats:
-            for i,cm_box in enumerate(cm_i_boxes):
-                results[file_name]['box_%d' % i] = _compute_cm_metrics(cm_box, pred_classnames)
         mask_wsi.close()
         target_wsi.close()
 
@@ -384,6 +383,7 @@ def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class
 def _example_one(slow=False, spacing=0.5):
     target_path = "some_slide.tif"
     pred_path = "some_pred.tif"
+
     output_dir = "./out/tiger_eval_test"
     ##0: Exclude, 1: Invasive Tumor, 2: Stroma, 3: In-situ Tumor, 4: Normal glands, 5: Necrosis (6: Lymphocytes), 7: Rest
     class_mapping = {1: 'Tumor', 2: 'Stroma', 3: 'Rest', 4: 'Rest', 5: 'Rest', 6: 'Stroma', 7: 'Rest'}
