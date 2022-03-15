@@ -382,8 +382,8 @@ def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class
 
 
 def _example_one(slow=False, spacing=0.5):
-    target_path = "/home/witali/projects2/tils-challenge/docker/l1_eval/gt/202B.tif"
-    pred_path = "/home/witali/projects2/tils-challenge/docker/l1_eval/test/input/0f76e6fd-4530-4d0b-abfa-a4e3371b8da9/output/images/breast-cancer-segmentation-for-tils/202B.tif"
+    target_path = "some_slide.tif"
+    pred_path = "some_pred.tif"
     output_dir = "./out/tiger_eval_test"
     ##0: Exclude, 1: Invasive Tumor, 2: Stroma, 3: In-situ Tumor, 4: Normal glands, 5: Necrosis (6: Lymphocytes), 7: Rest
     class_mapping = {1: 'Tumor', 2: 'Stroma', 3: 'Rest', 4: 'Rest', 5: 'Rest', 6: 'Stroma', 7: 'Rest'}
