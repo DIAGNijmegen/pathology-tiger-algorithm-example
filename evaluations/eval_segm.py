@@ -105,7 +105,7 @@ def merge_if_overlapping(a, b):
 
 def get_gt_bounding_boxes(ground_truth_wsi, spacing, overview_spacing=8.0):
     """
-    Bounding boxes will have form of (y,x,height,width)
+    Bounding boxes form (y,x,height,width)
     """
     if ground_truth_wsi.spacings[-1]+0.25 < overview_spacing:
         print('chaning overview_spacing from %f to %f' % (overview_spacing, ground_truth_wsi.spacings[-1]))
@@ -290,12 +290,11 @@ def plot_data_dist(conf_mat, classnames, out_dir):
                              autolabel_formatter='%.4f', autolabel_offset=0.25)
     out_path = out_dir/'data_dist.png'
     fig.savefig(str(out_path), bbox_inches="tight")
-    # print('%s saved' % out_path)
+
     fig, ax = _plot_barchart(sample_dist, classnames, title='Data Distribution', normalize=False, horizontal=True,
                              autolabel_formatter='%.4f', autolabel_offset=0.25)
     out_path = out_dir/'data_dist_abs.png'
     fig.savefig(str(out_path), bbox_inches="tight")
-    # print('%s saved' % out_path)
 
 def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class_mapping, output_dir, spacing=0.5,
                   show=False, slow=False, per_bbox=False):
@@ -380,7 +379,7 @@ def eval_segm_masks(target_pathes, pred_pathes, pred_class_mapping, target_class
     return results
 
 
-def _example_one(slow=False, spacing=0.5):
+def _example_one(spacing=0.5):
     target_path = "some_slide.tif"
     pred_path = "some_pred.tif"
 
@@ -388,7 +387,7 @@ def _example_one(slow=False, spacing=0.5):
     ##0: Exclude, 1: Invasive Tumor, 2: Stroma, 3: In-situ Tumor, 4: Normal glands, 5: Necrosis (6: Lymphocytes), 7: Rest
     class_mapping = {1: 'Tumor', 2: 'Stroma', 3: 'Rest', 4: 'Rest', 5: 'Rest', 6: 'Stroma', 7: 'Rest'}
     results = eval_segm_masks(target_path, pred_path, output_dir=output_dir, pred_class_mapping=class_mapping,
-                            target_class_mapping=class_mapping, slow=slow, spacing=spacing,
+                            target_class_mapping=class_mapping, spacing=spacing,
                             per_bbox=True)
     json_object = json.dumps(results, indent = 4)
     print(json_object)
