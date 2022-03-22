@@ -41,7 +41,7 @@ class CmScorer(object):
 
     def _remap(self, arr, old_new_map):
         #if overlap - have to copy, otherwise could also do inplace
-        if old_new_map.values() in old_new_map.keys() or self.remap_inplace:
+        if old_new_map.values() in old_new_map.keys() or not self.remap_inplace:
             arr_new = arr.copy()
             for old_val, new_val in old_new_map.items():
                 arr_new[arr==old_val] = new_val
@@ -128,18 +128,13 @@ def _test_scorers():
     expected_cm = [[1, 1, 2],
                    [1, 1, 0],
                    [1, 0, 2]]
-    from pycm import ConfusionMatrix
-    cm = ConfusionMatrix(actual_vector=gt, predict_vector=pred)
-    # cm.classes
-    # cm.table
-    # print(cm)
 
     scorer = TigerSegmScorer(incremental=True)
     gt1 = gt[:5]
     gt2 = gt[5:]
     pred1 = pred[:5]
     pred2 = pred[5:]
-    score1 = scorer(gt1, pred1)
+    score1 = scorer(gt1, pred1) #partial results
     score2 = scorer(gt2, pred2)
     result = scorer.get_score()
     cm = result.pop('cm')
