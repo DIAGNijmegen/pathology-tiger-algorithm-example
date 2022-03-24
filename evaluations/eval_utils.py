@@ -79,17 +79,6 @@ class CmScorer(object):
 
         cm = ConfusionMatrix(matrix=matrix)
 
-        # cm = ConfusionMatrix(actual_vector=gt, predict_vector=pred)
-        # if self.class_map is not None and len(self.class_map)>0:
-        #     missing_labels = list_not_in(self.class_map.keys(), cm.classes)
-        #     if len(missing_labels)>0:
-        #         table_map = cm.table
-        #         for ml in missing_labels:
-        #             for present_label in table_map.keys():
-        #                 table_map[present_label][ml] = 0
-        #             table_map[ml] = {k:0 for k in self.class_map.keys()}
-        #         cm = ConfusionMatrix(matrix=table_map)
-        # cm.relabel(self.class_map)
         if self.cm is None:
             self.cm = cm
         else:
