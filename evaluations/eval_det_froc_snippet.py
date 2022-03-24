@@ -56,3 +56,6 @@ def compute_froc_score(tprs, fps, target_fps):
     froc_score = sum(target_sensitivities) / len(target_fps)
 
     return froc_score, target_sensitivities
+
+def _world_to_slide_coords(world_coords, spacing):
+    return 1000*world_coords/spacing
