@@ -1,6 +1,7 @@
 import bisect
 import numpy as np
 from evalutils.evalutils import score_detection
+import os, json
 
 #... gather gt and predictions, extract probs, count tissue area
 target_fps=[5, 10, 20, 50, 100, 200, 500]
@@ -59,3 +60,26 @@ def compute_froc_score(tprs, fps, target_fps):
 
 def _world_to_slide_coords(world_coords, spacing):
     return 1000*world_coords/spacing
+
+def read_json_dict(path):
+    with open(str(path), 'r') as f:
+        data = json.load(f)
+    return data
+
+def _read_pred_points_probs(pred_json, spacing):
+    """ returns [[x,y,prob]] """
+    if os.stat(str(pred_json)).st_size == 0:
+        return [] #empty result
+
+    pred_dict = read_json_dict(pred_json)
+    points_list = pred_dict['points']
+    # point_arr = np.zeros((len(points_list), 3))
+    points = []
+    for i, point_dict in enumerate(points_list):
+        x, y, z = point_dict['point']
+        x = _world_to_slide_coords(x, spacing)
+        y = _world_to_slide_coords(y, spacing)
+        prob = point_dict['probability']
+        points.append([x, y, prob])
+        # point_arr[i] = x, y, prob
+    return points
