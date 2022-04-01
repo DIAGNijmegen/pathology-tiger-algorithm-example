@@ -98,7 +98,7 @@ def process():
     input_width = int(hooknet.input_shape[1])
     input_height = int(hooknet.input_shape[0])
 
-    # compute offset with respect to the tile size due to cropping (see line 54 and 55)
+    # compute offset  due to the difference between the shape of the model's input and the writing tile size
     x_offset = int((input_width - WRITING_TILE_SIZE) // 2)
     y_offset = int((input_height - WRITING_TILE_SIZE) // 2)
 
