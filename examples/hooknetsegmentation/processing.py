@@ -36,22 +36,19 @@ def crop_to_tile_size(data: np.ndarray):
 def process_image_tile_to_segmentation(
     hooknet: HookNet, target_image_tile: np.ndarray, context_image_tile: np.ndarray,  tissue_mask_tile: np.ndarray
 ) -> np.ndarray:
-    """Example function that shows processing a tile from a multiresolution image for segmentation purposes.
-
-    NOTE 1024
-        This code is only made for illustration and is not meant to be taken as valid processing step.
-
-    Args:
-        image_tile (np.ndarray): [description]
-        tissue_mask_tile (np.ndarray): [description]
-
-    Returns:
-        np.ndarray: [description]
-    """
+    
+    # create batch 
     hooknet_batch = [np.array([target_image_tile]), np.array([context_image_tile])]
+    
+    # predict on batch
     prediction = hooknet.predict_on_batch(hooknet_batch)[0]
+    
+    # crop prediction to writing tile size
     prediction = crop_to_tile_size(prediction)
+    
+    # crop mask to writing tile size
     tissue_mask_tile = crop_to_tile_size(tissue_mask_tile)
+    
     return prediction * tissue_mask_tile
 
 
