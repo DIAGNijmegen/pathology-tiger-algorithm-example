@@ -52,6 +52,9 @@ If you use this repository as a starting point. Please change the following thre
  - tils-score: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L74
 
 
+Depending on the type of model and settings you are using, you might want or need to change the [processing function](https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/9259053169f53f7b3a5c8fa7e798ce91b96362d4/tigeralgorithmexample/processing.py#L105).
+
+
 ## Test and Export
 To test if your algorithm works and (still) produces the correct outputs you add an image to ./testinput/ and a corresponding tissue mask in ./testinput/images/
 
