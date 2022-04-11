@@ -32,6 +32,7 @@ docker run --rm \
         -v tiger-output:/output/ \
         python:3.8-slim \
         python -m json.tool $DETECTION_FILE; \
+        /bin/bash; \
         [[ -f $SEGMENTATION_FILE ]] || printf 'Expected file %s does not exist!\n' "$SEGMENTATION_FILE"; \
         [[ -f $TILS_SCORE_FILE ]] || printf 'Expected file %s does not exist!\n' "$TILS_SCORE_FILE"; \
 
