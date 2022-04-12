@@ -23,6 +23,8 @@ docker run --rm \
         --security-opt="no-new-privileges" \
         --shm-size=128m \
         --pids-limit=256 \
+        # If you need gpu
+        # --gpus-all \
         -v $SCRIPTPATH/testinput/:/input/ \
         -v tiger-output:/output/ \
         tigerexamplealgorithm
