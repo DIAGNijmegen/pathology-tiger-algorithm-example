@@ -1,7 +1,5 @@
-FROM ubuntu:20.04
+FROM nvidia/cuda:11.1-runtime-ubuntu20.04 
 
-# if you need GPU
-# FROM nvidia/cuda:11.1-runtime-ubuntu20.04  
 
 ENV TZ=Europe/Amsterdam
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
