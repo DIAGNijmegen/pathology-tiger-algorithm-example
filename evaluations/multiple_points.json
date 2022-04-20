@@ -1,0 +1,76 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "Multiple points"
+      ]
+    },
+    "points": {
+      "type": "array",
+      "items": {
+        "allOf": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "Point"
+                ]
+              },
+              "point": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "probability": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "point"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "version": {
+      "type": "object",
+      "properties": {
+        "major": {
+          "type": "number",
+          "minimum": 0,
+          "multipleOf": 1.0
+        },
+        "minor": {
+          "type": "number",
+          "minimum": 0,
+          "multipleOf": 1.0
+        }
+      },
+      "required": [
+        "major",
+        "minor"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "type",
+    "points"
+  ],
+  "additionalProperties": false
+}
