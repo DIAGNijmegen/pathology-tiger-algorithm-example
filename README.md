@@ -45,11 +45,18 @@ Dockerfile to be build and uploaded to grand-challenge. It installs
 
 As an entry point, the \_\_main\_\_ file will be run; hence process function from the processing file will be called.
 
+If you want to use a GPU, please change in the Dockerfile:
+- FROM ubuntu:20.04 ->  FROM nvidia/cuda:11.1-runtime-ubuntu20.04
+
+
 ## Include your own code
 If you use this repository as a starting point. Please change the following three functions and implement your own models/pipeline
  - segmentation: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L26
  - detection: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L48
  - tils-score: https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/f1e098cfd3300e7e1988c563afc98f904b4b08e8/tigeralgorithmexample/processing.py#L74
+
+
+Depending on the type of model and settings you are using, you might want or need to change the [processing function](https://github.com/DIAGNijmegen/pathology-tiger-algorithm-example/blob/9259053169f53f7b3a5c8fa7e798ce91b96362d4/tigeralgorithmexample/processing.py#L105).
 
 
 ## Test and Export
@@ -60,6 +67,7 @@ After the image and the tissue background are present in the test and test/image
 ```bash
 ./test.sh
 ```
+If you want to test with gpus, please add --gpus all to the docker run command in ./test.sh 
 
 This will build the docker, run the docker and check if the required output is present. Furthermore, it will check if the detected_lymphocytes.json is in valid json format. When there are no complaints in the output you can export the algorithm to an .tar.xz file with the following command:
 
