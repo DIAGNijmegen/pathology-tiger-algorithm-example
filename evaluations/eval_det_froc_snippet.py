@@ -25,7 +25,7 @@ def compute_scores(gt_coords, pred_coords, dist_thresh, thresholds):
             if len(pred)==0:
                 fns[i]+=len(gt) #no tp or fp
             elif len(gt)==0:
-                fps[i]+=len(pred) #no fn or tp
+                fps[i]+=np.sum(pred[:,2]>=thresh) #no fn or tp
             else:
                 thresh_pred = pred[np.where(pred[:,2]>=thresh)[0],:2]
                 det_score = score_detection(ground_truth=gt, predictions=thresh_pred, radius=dist_thresh)
