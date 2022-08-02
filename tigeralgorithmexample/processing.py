@@ -1,34 +1,41 @@
+import time
+from functools import wraps
 from pathlib import Path
 from typing import List
 
 import numpy as np
 from tqdm import tqdm
 
-from .gcio import (
-    TMP_DETECTION_OUTPUT_PATH,
-    TMP_SEGMENTATION_OUTPUT_PATH,
-    TMP_TILS_SCORE_PATH,
-    copy_data_to_output_folders,
-    get_image_path_from_input_folder,
-    get_tissue_mask_path_from_input_folder,
-    initialize_output_folders,
-)
-from .rw import (
-    READING_LEVEL,
-    WRITING_TILE_SIZE,
-    DetectionWriter,
-    SegmentationWriter,
-    TilsScoreWriter,
-    open_multiresolutionimage_image,
-)
+from .gcio import (TMP_DETECTION_OUTPUT_PATH, TMP_SEGMENTATION_OUTPUT_PATH,
+                   TMP_TILS_SCORE_PATH, copy_data_to_output_folders,
+                   get_image_path_from_input_folder,
+                   get_tissue_mask_path_from_input_folder,
+                   initialize_output_folders)
+from .rw import (READING_LEVEL, WRITING_TILE_SIZE, DetectionWriter,
+                 SegmentationWriter, TilsScoreWriter,
+                 open_multiresolutionimage_image)
 
 
+# https://stackoverflow.com/questions/1622943/timeit-versus-timing-decorator
+def timing(f):
+    @wraps(f)
+    def wrap(*args, **kw):
+        ts = time()
+        result = f(*args, **kw)
+        te = time()
+        print("func:%r args:[%r, %r] took: %2.4f sec" % (f.__name__, args, kw, te - ts))
+        return result
+
+    return wrap
+
+
+@timing
 def process_image_tile_to_segmentation(
     image_tile: np.ndarray, tissue_mask_tile: np.ndarray
 ) -> np.ndarray:
     """Example function that shows processing a tile from a multiresolution image for segmentation purposes.
-    
-    NOTE 
+
+    NOTE
         This code is only made for illustration and is not meant to be taken as valid processing step.
 
     Args:
@@ -45,13 +52,14 @@ def process_image_tile_to_segmentation(
     return prediction * tissue_mask_tile
 
 
+@timing
 def process_image_tile_to_detections(
     image_tile: np.ndarray,
     segmentation_mask: np.ndarray,
 ) -> List[tuple]:
     """Example function that shows processing a tile from a multiresolution image for detection purposes.
-    
-    NOTE 
+
+    NOTE
         This code is only made for illustration and is not meant to be taken as valid processing step. Please update this function
 
     Args:
@@ -71,12 +79,13 @@ def process_image_tile_to_detections(
     return list(zip(xs, ys, probabilities))
 
 
+@timing
 def process_segmentation_detection_to_tils_score(
     segmentation_path: Path, detections: List[tuple]
 ) -> int:
     """Example function that shows processing a segmentation mask and corresponding detection for the computation of a tls score.
-    
-    NOTE 
+
+    NOTE
         This code is only made for illustration and is not meant to be taken as valid processing step.
 
     Args:
@@ -88,13 +97,15 @@ def process_segmentation_detection_to_tils_score(
     """
 
     level = 4
-    cell_area_level_1 = 16*16
+    cell_area_level_1 = 16 * 16
 
     image = open_multiresolutionimage_image(path=segmentation_path)
     width, height = image.getDimensions()
-    slide_at_level_4 = image.getUCharPatch(0, 0, int(width / 2**level), int(height / 2**level), level)
+    slide_at_level_4 = image.getUCharPatch(
+        0, 0, int(width / 2 ** level), int(height / 2 ** level), level
+    )
     area = len(np.where(slide_at_level_4 == 2)[0])
-    cell_area = (cell_area_level_1//2**4)
+    cell_area = cell_area_level_1 // 2 ** 4
     n_detections = len(detections)
     if cell_area == 0 or n_detections == 0:
         return 0
@@ -106,7 +117,7 @@ def process():
     """Proceses a test slide"""
 
     level = READING_LEVEL
-    tile_size = WRITING_TILE_SIZE # should be a power of 2
+    tile_size = WRITING_TILE_SIZE  # should be a power of 2
 
     initialize_output_folders()
 
@@ -114,8 +125,8 @@ def process():
     image_path = get_image_path_from_input_folder()
     tissue_mask_path = get_tissue_mask_path_from_input_folder()
 
-    print(f'Processing image: {image_path}')
-    print(f'Processing with mask: {tissue_mask_path}')
+    print(f"Processing image: {image_path}")
+    print(f"Processing with mask: {tissue_mask_path}")
 
     # open images
     image = open_multiresolutionimage_image(path=image_path)
@@ -143,7 +154,7 @@ def process():
             tissue_mask_tile = tissue_mask.getUCharPatch(
                 startX=x, startY=y, width=tile_size, height=tile_size, level=level
             ).squeeze()
-            
+
             if not np.any(tissue_mask_tile):
                 continue
 
@@ -170,8 +181,8 @@ def process():
     segmentation_writer.save()
     detection_writer.save()
 
-    print('Number of detections', len(detection_writer.detections))
-    
+    print("Number of detections", len(detection_writer.detections))
+
     print("Compute tils score...")
     # compute tils score
     tils_score = process_segmentation_detection_to_tils_score(
