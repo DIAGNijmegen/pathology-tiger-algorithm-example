@@ -20,9 +20,9 @@ from .rw import (READING_LEVEL, WRITING_TILE_SIZE, DetectionWriter,
 def timing(f):
     @wraps(f)
     def wrap(*args, **kw):
-        ts = time()
+        ts = time.time()
         result = f(*args, **kw)
-        te = time()
+        te = time.time()
         print("func:%r args:[%r, %r] took: %2.4f sec" % (f.__name__, args, kw, te - ts))
         return result
 
