@@ -8,7 +8,7 @@ setup(
     packages=find_packages(),
     license="LICENSE.txt",
     install_requires=[
-        "numpy==1.20.2",
+        "numpy==1.23.5",
         "tqdm==4.62.3"
     ],
 )
