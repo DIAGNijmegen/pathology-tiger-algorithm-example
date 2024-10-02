@@ -1,2 +1,3 @@
 numpy==1.23.5
 tqdm==4.62.3
+evalutils==0.2.4
